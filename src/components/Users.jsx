@@ -18,14 +18,29 @@ export default function Users() {
     }
   };
 
-  useEffect(()=>{
-    fetchUsers()
-  },[])
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const url = `${API_URL}/api/users/${id}`;
+      const result = await axios.delete(url);
+      setError("User deleted successfully");
+      fetchUsers();
+    } catch (err) {
+      console.log(err);
+      setError("Something went wrong");
+    }
+  };
 
   return (
     <div>
       {users.map((value) => (
-        <li key={value._id}>{value.firstName}</li>
+        <li key={value._id}>
+          {value.firstName}-
+          <button onClick={() => handleDelete(value._id)}>Delete</button>
+        </li>
       ))}
     </div>
   );
