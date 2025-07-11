@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function Register() {
   const [user, setUser] = useState({});
   const [error, setError] = useState();
+  const Navigate = useNavigate()
   const API_URL = import.meta.env.VITE_API_URL
   const handleSubmit = async () => {
     try {
     const url = `${API_URL}/api/users/register`;
      const result = await axios.post(url, user);
       setError("Data saved successfully");
+      Navigate("/login")
     } catch (err) {
       console.log(err);
       setError("Something went wrong");
@@ -51,9 +54,9 @@ export default function Register() {
         <button onClick={handleSubmit}>Submit</button>
       </p>
       <hr />
-      {/* <p>
+      <p>
         Already a member?&nbsp;<Link to="/login">Login here...</Link>
-      </p> */}
+      </p>
     </div>
   );
 }
